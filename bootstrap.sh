@@ -17,7 +17,7 @@
 ############################  SETUP PARAMETERS
 app_name='spf13-vim'
 [ -z "$APP_PATH" ] && APP_PATH="$HOME/.spf13-vim-3"
-[ -z "$REPO_URI" ] && REPO_URI='https://github.com/spf13/spf13-vim.git'
+[ -z "$REPO_URI" ] && REPO_URI='https://github.com/lancerkz/spf13-vim.git'
 [ -z "$REPO_BRANCH" ] && REPO_BRANCH='3.0'
 debug_mode='0'
 fork_maintainer='0'
@@ -121,17 +121,29 @@ create_symlinks() {
     local source_path="$1"
     local target_path="$2"
 
-    lnif "$source_path/.vimrc"         "$target_path/.vimrc"
-    lnif "$source_path/.vimrc.bundles" "$target_path/.vimrc.bundles"
-    lnif "$source_path/.vimrc.before"  "$target_path/.vimrc.before"
-    lnif "$source_path/.vim"           "$target_path/.vim"
+    lnif "$source_path/.vimrc"               "$target_path/.vimrc"
+    lnif "$source_path/.vimrc.local"         "$target_path/.vimrc.local"
+    lnif "$source_path/.vimrc.bundles"       "$target_path/.vimrc.bundles"
+    lnif "$source_path/.vimrc.bundles.local" "$target_path/.vimrc.bundles.local"
+    lnif "$source_path/.vimrc.before"        "$target_path/.vimrc.before"
+    lnif "$source_path/.vimrc.before.local"  "$target_path/.vimrc.before.local"
+    lnif "$source_path/.vim"                 "$target_path/.vim"
 
     if program_exists "nvim"; then
         lnif "$source_path/.vim"       "$target_path/.config/nvim"
         lnif "$source_path/.vimrc"     "$target_path/.config/nvim/init.vim"
     fi
+    if program_exists "uname"; then
+        unamestr=`uname`
+        if [[ "$unamestr" == 'Linux'  ]]; then
+            lnif "$source_path/.gvimrc.local.linux" "$target_path/.gvimrc.local"
+        elif [[ "$unamestr" == 'Darwin'  ]]; then
+            lnif "$source_path/.gvimrc.local.mac" "$target_path/.gvimrc.local"
+        fi
 
-    touch  "$target_path/.vimrc.local"
+    fi
+
+    #touch  "$target_path/.vimrc.local"
 
     ret="$?"
     success "Setting up vim symlinks."

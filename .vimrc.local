@@ -1,0 +1,55 @@
+colorscheme desert
+set encoding=utf-8
+set termencoding=utf-8
+"set ambiwidth=double
+set fencs=utf-8,ucs-bom,gb18030,gbk
+set t_Co=256
+
+"load session
+nmap <leader>so :SessionOpen 
+
+"shortcut for resize windows
+nnoremap <Leader><Leader>1 <C-w><
+nnoremap <Leader><Leader>2 <C-w>>
+nnoremap <Leader><Leader>3 <C-w>-
+nnoremap <Leader><Leader>4 <C-w>+
+
+"change split behavior
+set splitbelow
+set splitright
+
+set wrap
+
+set nospell
+
+"vimdiff keymap"
+noremap <leader>]c ]c
+noremap <leader>[c [c
+
+let g:signify_vcs_list = ['git','hg']
+let g:bufferline_echo = 0
+let g:ycm_confirm_extra_conf= 0 
+let g:ycm_key_invoke_completion= '<C-F5>'
+
+"disable rope
+let g:pymode_rope = 0
+let g:pymode_rope_lookup_project = 0
+
+let g:pymode_lint_ignore = "E501,W,C901"
+
+
+function! NeatFoldText()
+    let line = substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+    let lines_count = v:foldend - v:foldstart + 1
+    let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
+    let foldchar = matchstr(&fillchars, 'fold:\zs.')
+    let foldtextstart = strpart(repeat("-", (v:foldlevel-1)*4) . line, 0, (winwidth(0)*2)/3)
+    let foldtextend = lines_count_text . repeat(foldchar, 8)
+    let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+    return foldtextstart . repeat(" ", winwidth(0)-foldtextlength) . foldtextend
+endfunction
+
+set foldtext=NeatFoldText()
+hi Folded term=bold cterm=bold ctermfg=244 ctermbg=235 guifg=Cyan guibg=DarkGrey
+
+set clipboard=unnamed
