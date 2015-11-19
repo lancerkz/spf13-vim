@@ -1,4 +1,5 @@
 Forked from Original SPF13, added some local files
+https://raw.githubusercontent.com/lancerkz/spf13-vim/3.0/bootstrap.sh
 
 
 # spf13-vim : Steve Francia's Vim Distribution
