@@ -1,3 +1,6 @@
+Forked from Original SPF13, added some local files
+
+
 # spf13-vim : Steve Francia's Vim Distribution
 
                     __ _ _____              _
